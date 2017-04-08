@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="color_primary">@color/primary</color>
+    <color name="color_primary_dark">@color/primary_dark</color>
+    <color name="color_primary_light">@color/primary_light</color>
+    <color name="color_accent">@color/accent</color>
+    <color name="color_primary_text">@color/primary_text</color>
+    <color name="color_secondary_text">@color/secondary_text</color>
+    <color name="color_icons">@color/icons</color>
+    <color name="color_divider">@color/divider</color>
+
+    <color name="color_layout_background">@color/color_icons</color>
+    <!--导航栏-->
+    <color name="color_tab_pressed">@color/color_primary</color>
+    <color name="color_tab_normal">@color/color_secondary_text</color>
+
+
     <color name="colorPrimary">#eb423e</color>
     <color name="colorPrimaryDark">#80eb423e</color>
     <color name="colorAccent">#FF4081</color>
-
     <color name="layoutBackground">#eff3f6</color>
     <!--导航栏-->
     <color name="colorTabSelected">#eb423e</color>

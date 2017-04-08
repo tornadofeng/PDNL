@@ -7,10 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chuangfeng.pdnl.R;
-import com.chuangfeng.pdnl.widget.TopBar;
-import com.chuangfeng.pdnl.widget.TopBarConfig;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.yokeyword.fragmentation.SupportFragment;
 
@@ -20,8 +17,8 @@ import me.yokeyword.fragmentation.SupportFragment;
 
 public class LiveFragment extends SupportFragment {
 
-    @BindView(R.id.top_bar)
-    TopBar topBar;
+//    @BindView(R.id.top_bar)
+//    TopBar topBar;
 
     @Nullable
     @Override
@@ -29,15 +26,16 @@ public class LiveFragment extends SupportFragment {
         View view = inflater.inflate(R.layout.fragment_live, container, false);
         ButterKnife.bind(this, view);
 
-        initTopBar();
+//        initTopBar();
         return view;
     }
 
-    private void initTopBar() {
-        TopBarConfig config = new TopBarConfig.Buider()
-                .setTitleTextViewVisible(true)
-                .setTitleTextViewText(getString(R.string.title_live))
-                .create();
-        topBar.init(config);
-    }
+//    private void initTopBar() {
+//        TopBarConfig config = new TopBarConfig.Buider()
+//                .setTitleTextViewVisible(true)
+//                .setTitleTextViewText(getString(R.string.title_live))
+//                .create();
+//        topBar.init(config);
+//
+//    }
 }

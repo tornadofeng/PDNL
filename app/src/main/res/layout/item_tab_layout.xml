@@ -5,8 +5,8 @@
              android:background="?selectableItemBackground">
     <!--selectableItemBackground: Android 5.0以上显示波纹效果，波纹有边界：波纹涟漪效果只是显示在控件内部-->
     <Button
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
         android:id="@+id/tab_btn"
         android:layout_gravity="center"
         android:clickable="false"/>
