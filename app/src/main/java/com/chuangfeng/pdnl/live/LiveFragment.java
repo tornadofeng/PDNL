@@ -1,6 +1,7 @@
-package com.chuangfeng.pdnl.news.view;
+package com.chuangfeng.pdnl.live;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,25 +18,25 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Created by chuangfeng on 2017/4/8.
  */
 
-public class NewsFragment extends SupportFragment {
+public class LiveFragment extends SupportFragment {
 
     @BindView(R.id.top_bar)
     TopBar topBar;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_live, container, false);
         ButterKnife.bind(this, view);
 
-        intiTopBar();
+        initTopBar();
         return view;
     }
 
-    private void intiTopBar() {
+    private void initTopBar() {
         TopBarConfig config = new TopBarConfig.Buider()
                 .setTitleTextViewVisible(true)
-                .setTitleTextViewText(getString(R.string.title_news))
+                .setTitleTextViewText(getString(R.string.title_live))
                 .create();
         topBar.init(config);
     }
