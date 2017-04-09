@@ -1,6 +1,7 @@
-package com.chuangfeng.pdnl.user.view;
+package com.chuangfeng.pdnl.explore.view;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,10 +22,9 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Created by chuangfeng on 2017/4/8.
  */
 
-public class UserFragment extends SupportFragment {
+public class ExploreFragment extends SupportFragment {
 
-
-    private static UserFragment fragment = null;
+    private static ExploreFragment fragment = null;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -33,19 +33,19 @@ public class UserFragment extends SupportFragment {
     @BindView(R.id.text)
     TextView text;
 
-    public static UserFragment newInstance() {
+    public static ExploreFragment newInstance() {
         if (fragment == null) {
-            synchronized (UserFragment.class) {
-                fragment = new UserFragment();
+            synchronized (ExploreFragment.class) {
+                fragment = new ExploreFragment();
             }
         }
         return fragment;
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_explore, container, false);
         ButterKnife.bind(this, view);
 
         initToolBar();
@@ -58,9 +58,9 @@ public class UserFragment extends SupportFragment {
     }
 
     private void initToolBar() {
-        toolbar.setTitle(getString(R.string.title_user));
+        toolbar.setTitle(getString(R.string.title_explore));
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         text.setText(DateUtil.timeStamp2Date(String.valueOf(System.currentTimeMillis()), null));
-        Log.e("user", "initToolBar:");
+        Log.e("explore", "initToolBar: ");
     }
 }
