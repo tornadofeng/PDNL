@@ -13,18 +13,16 @@ import android.widget.TextView;
 
 import com.chuangfeng.pdnl.R;
 import com.chuangfeng.pdnl.util.DateUtil;
+import com.chuangfeng.pdnl.widget.LazyFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by chuangfeng on 2017/4/8.
  */
 
-public class ExploreFragment extends SupportFragment {
-
-    private static ExploreFragment fragment = null;
+public class ExploreFragment extends LazyFragment {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -34,11 +32,9 @@ public class ExploreFragment extends SupportFragment {
     TextView text;
 
     public static ExploreFragment newInstance() {
-        if (fragment == null) {
-            synchronized (ExploreFragment.class) {
-                fragment = new ExploreFragment();
-            }
-        }
+        ExploreFragment fragment = new ExploreFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -48,13 +44,7 @@ public class ExploreFragment extends SupportFragment {
         View view = inflater.inflate(R.layout.fragment_explore, container, false);
         ButterKnife.bind(this, view);
 
-        initToolBar();
         return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     private void initToolBar() {
@@ -62,5 +52,10 @@ public class ExploreFragment extends SupportFragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         text.setText(DateUtil.timeStamp2Date(String.valueOf(System.currentTimeMillis()), null));
         Log.e("explore", "initToolBar: ");
+    }
+
+    @Override
+    protected void initLazyView(Bundle savedInstanceState) {
+        initToolBar();
     }
 }

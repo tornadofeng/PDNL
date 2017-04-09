@@ -57,7 +57,6 @@
             android:layout_height="100dp"
             android:id="@+id/text"
             android:gravity="center"/>
-
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

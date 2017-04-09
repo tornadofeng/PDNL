@@ -13,18 +13,16 @@ import android.widget.TextView;
 
 import com.chuangfeng.pdnl.R;
 import com.chuangfeng.pdnl.util.DateUtil;
+import com.chuangfeng.pdnl.widget.LazyFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by chuangfeng on 2017/4/8.
  */
 
-public class LiveFragment extends SupportFragment {
-
-    private static LiveFragment fragment = null;
+public class LiveFragment extends LazyFragment {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -34,11 +32,9 @@ public class LiveFragment extends SupportFragment {
     TextView text;
 
     public static LiveFragment newInstance() {
-        if (fragment == null) {
-            synchronized (LiveFragment.class) {
-                fragment = new LiveFragment();
-            }
-        }
+        LiveFragment fragment = new LiveFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -48,13 +44,7 @@ public class LiveFragment extends SupportFragment {
         View view = inflater.inflate(R.layout.fragment_live, container, false);
         ButterKnife.bind(this, view);
 
-        initToolBar();
         return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     private void initToolBar() {
@@ -64,4 +54,8 @@ public class LiveFragment extends SupportFragment {
         Log.e("live", "initToolBar: ");
     }
 
+    @Override
+    protected void initLazyView(Bundle savedInstanceState) {
+        initToolBar();
+    }
 }
