@@ -8,25 +8,29 @@ import android.content.SharedPreferences;
  * Created by chuangfeng on 2017/4/6.
  */
 
-public class SPUtil {
+public class SPHelper {
 
     private static Context context;
-    private static SPUtil instance = null;
+    private static SPHelper instance = null;
 
     /*************默认保存为String类型（int与boolean在末尾添加说明）**************/
-    public static final String BOOLEAN_XX= "booleanXX";//boolean型value
+    public static final String BOOLEAN_XX= "boolean_XX";//boolean型value
     public static final String STRING_XX = "string_XX";//String型value
-    public static final String INT_XX = "intXX"; //int型value
+    public static final String INT_XX = "int_XX"; //int型value
 
-    private SPUtil(Context ctx) {
+    public static final String STRING_USER = "user_backgroun";
+    /****************************************************************************/
+
+
+    private SPHelper(Context ctx) {
         context = ctx;
     }
 
-    public static SPUtil getInstance(Context ctx) {
+    public static SPHelper with(Context ctx) {
         if (instance == null) {
-            synchronized (SPUtil.class) {
+            synchronized (SPHelper.class) {
                 if (instance == null) {
-                    instance = new SPUtil(ctx.getApplicationContext());
+                    instance = new SPHelper(ctx.getApplicationContext());
                 }
             }
         }
