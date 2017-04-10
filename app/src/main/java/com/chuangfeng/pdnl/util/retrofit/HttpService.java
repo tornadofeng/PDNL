@@ -6,8 +6,8 @@ package com.chuangfeng.pdnl.util.retrofit;
 
 public class HttpService {
 
-//    @POST("user")
-//    Observable<BaseBean<String>> login(
+//    //    @POST("user")
+//    Observable<LiveBaseBean<String>> login(
 //
 //    );
 //

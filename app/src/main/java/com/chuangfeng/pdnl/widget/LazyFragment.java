@@ -3,13 +3,11 @@ package com.chuangfeng.pdnl.widget;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import me.yokeyword.fragmentation.SupportFragment;
-
 /**
  * Created by chuangfeng on 2017/4/9.
  */
 
-public abstract class LazyFragment extends SupportFragment {
+public abstract class LazyFragment extends BaseFragment {
 
     private boolean mInited = false;
     private Bundle mSavedInstanceState;

@@ -13,15 +13,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHelper {
 
-    public static String BASE_URL = "http://api.douban.com/v2/movie/";
+    public static String BASE_EXPLORE_URL = "http://api.douban.com/v2/movie/";
+    public static String BASE_LIVE_URL = "http://api.douban.com/v2/movie/";
+    public static String BASE_USER_URL = "http://api.douban.com/v2/movie/";
+
     private static Retrofit retrofit = null;
 
-    public static Retrofit getInstance() {
+    public static Retrofit getExploreHelper() {
         if (retrofit == null) {
             synchronized (RetrofitHelper.class) {
                 retrofit = new Retrofit.Builder()
                         .client(new OkHttpClient.Builder().connectTimeout(5, TimeUnit.SECONDS).build())
-                        .baseUrl(BASE_URL)
+                        .baseUrl(BASE_EXPLORE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .build();
@@ -30,15 +33,33 @@ public class RetrofitHelper {
         return retrofit;
     }
 
-    public static Retrofit getDefault(String baseUrl) {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
+    public static Retrofit getLiveHelper() {
+        if (retrofit == null) {
+            synchronized (RetrofitHelper.class) {
+                retrofit = new Retrofit.Builder()
+                        .client(new OkHttpClient.Builder().connectTimeout(5, TimeUnit.SECONDS).build())
+                        .baseUrl(BASE_LIVE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .build();
+            }
+        }
         return retrofit;
     }
+    public static Retrofit getUserHelper() {
+        if (retrofit == null){
+            synchronized (RetrofitHelper.class){
+                retrofit = new Retrofit.Builder()
+                        .client(new OkHttpClient.Builder().connectTimeout(5, TimeUnit.SECONDS).build())
+                        .baseUrl(BASE_USER_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .build();
+            }
+        }
+        return retrofit;
+    }
+
 /*
     public static <T> Observable.Transformer<BaseBean<T>, T> handleResult() {
 
