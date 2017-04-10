@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chuangfeng.pdnl.R;
-import com.chuangfeng.pdnl.widget.LazyFragment;
+import com.chuangfeng.pdnl.widget.fragment.LazyFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +49,7 @@ public class UserFragment extends LazyFragment {
         toolbar.setTitle(getString(R.string.title_user));
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        Glide.with(this).load(R.drawable.ic_header).into(appBarIv);
+        Glide.with(this).load(R.drawable.background_user).into(appBarIv);
     }
 
     @Override

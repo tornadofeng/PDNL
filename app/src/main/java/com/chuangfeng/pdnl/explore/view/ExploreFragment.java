@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.chuangfeng.pdnl.R;
 import com.chuangfeng.pdnl.util.DateUtil;
-import com.chuangfeng.pdnl.widget.LazyFragment;
+import com.chuangfeng.pdnl.widget.fragment.LazyFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

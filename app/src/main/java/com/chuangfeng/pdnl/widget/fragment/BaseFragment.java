@@ -1,4 +1,4 @@
-package com.chuangfeng.pdnl.widget;
+package com.chuangfeng.pdnl.widget.fragment;
 
 import me.yokeyword.fragmentation.SupportFragment;
 
