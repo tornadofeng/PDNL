@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * 统一操作SharedPreferences
+ * SharedPreferences工具类
  * Created by chuangfeng on 2017/4/6.
  */
 
@@ -18,7 +18,7 @@ public class SPHelper {
     public static final String STRING_XX = "string_XX";//String型value
     public static final String INT_XX = "int_XX"; //int型value
 
-    public static final String STRING_USER = "user_backgroun";
+    public static final String STRING_USER = "user_background";
     /****************************************************************************/
 
 

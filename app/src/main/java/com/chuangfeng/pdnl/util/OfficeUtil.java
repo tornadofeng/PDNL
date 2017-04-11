@@ -7,6 +7,7 @@ import android.net.Uri;
 import java.io.File;
 
 /**
+ * 通过外部第三方打开文件的工具类
  * Created by chuangfeng on 2017/4/6.
  */
 

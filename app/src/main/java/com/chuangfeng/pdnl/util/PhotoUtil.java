@@ -17,10 +17,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
+ * 相片处理工具类
  * Created by chuangfeng on 2017/4/10.
  */
 
-public class PhotoUtils {
+public class PhotoUtil {
 
     /**
      * 裁剪图片方法实现

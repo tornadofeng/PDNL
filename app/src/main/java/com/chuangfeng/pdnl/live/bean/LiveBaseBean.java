@@ -1,4 +1,4 @@
-package com.chuangfeng.pdnl.util.retrofit.bean;
+package com.chuangfeng.pdnl.live.bean;
 
 /**
  * Created by chuangfeng on 2017/4/10.

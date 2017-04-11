@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 /**
- * 状态栏操作
+ * 沉浸式状态栏工具类
  * Created by chuangfeng on 2017/4/6.
  */
 

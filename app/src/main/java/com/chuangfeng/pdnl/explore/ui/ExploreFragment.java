@@ -1,4 +1,4 @@
-package com.chuangfeng.pdnl.explore.view;
+package com.chuangfeng.pdnl.explore.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

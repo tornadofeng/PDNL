@@ -1,4 +1,4 @@
-package com.chuangfeng.pdnl.user.view;
+package com.chuangfeng.pdnl.user.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,8 +17,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chuangfeng.pdnl.R;
-import com.chuangfeng.pdnl.util.PhotoUtils;
+import com.chuangfeng.pdnl.util.PhotoUtil;
 import com.chuangfeng.pdnl.util.SPHelper;
+import com.chuangfeng.pdnl.util.ToastUtil;
 import com.chuangfeng.pdnl.widget.fragment.LazyFragment;
 
 import org.joda.time.DateTime;
@@ -38,7 +39,7 @@ public class UserFragment extends LazyFragment {
     private static final int REQUEST_CAMERA = 100;
     private static final int REQUEST_GALLERY = REQUEST_CAMERA + 1;
 
-    private String savePath;
+    private String savePath;//调用系统Camera相片保存的路径
 
     @BindView(R.id.user_iv_appbar)
     ImageView iv_appbar;
@@ -75,7 +76,7 @@ public class UserFragment extends LazyFragment {
         if (!TextUtils.isEmpty(filePath)) {
             Glide.with(this).load(filePath).into(iv_appbar);
         } else {
-            Glide.with(this).load(R.drawable.background_user).into(iv_appbar);
+            Glide.with(this).load(R.drawable.background_default).into(iv_appbar);//加载默认背景
         }
     }
 
@@ -91,7 +92,7 @@ public class UserFragment extends LazyFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                PhotoUtils.startGallery(UserFragment.this, REQUEST_GALLERY);
+                                PhotoUtil.startGallery(UserFragment.this, REQUEST_GALLERY);
                             }
                         })
                         .setNegativeButton(getString(R.string.user_carema), new DialogInterface.OnClickListener() {
@@ -100,7 +101,7 @@ public class UserFragment extends LazyFragment {
                                 dialog.dismiss();
                                 String fileName = "PDNL_" + new DateTime(System.currentTimeMillis()).toString("yyyyMMddHHmmss") + ".png";
                                 savePath = Environment.getExternalStorageDirectory() + "/DCIM/Camera/" + fileName;
-                                PhotoUtils.startTakePhoto(UserFragment.this, REQUEST_CAMERA, fileName);
+                                PhotoUtil.startTakePhoto(UserFragment.this, REQUEST_CAMERA, fileName);
                             }
                         });
                 AlertDialog dialog = builder.create();
@@ -121,21 +122,26 @@ public class UserFragment extends LazyFragment {
                     //如果调用相机时指定了savePath的Uri，则不会返回data，data == null
                     //我们可以直接从之前设置savePath得到相片File
                     File temp = new File(savePath);
-                    PhotoUtils.updateGallery(this.getContext(), savePath);
+                    PhotoUtil.updateGallery(this.getContext(), savePath);
                     String filePath = temp.getAbsolutePath();
                     Glide.with(this).load(filePath).into(iv_appbar);
                     SPHelper.with(this.getContext()).setString(SPHelper.STRING_USER, filePath);//保存图片路径
+                } else if (requestCode == RESULT_CANCELED) {
+                    ToastUtil.show(getContext(), getString(R.string.user_carema_cancel));
+                } else {
+                    ToastUtil.show(getContext(), getString(R.string.error_unknown));
                 }
                 break;
             case REQUEST_GALLERY: // 相册获取
                 if (requestCode == RESULT_OK) {
-                    try {
-                        String filePath = PhotoUtils.getRealPathFromURI(this.getContext(), data.getData());
-                        Glide.with(this).load(filePath).into(iv_appbar);
-                        SPHelper.with(this.getContext()).setString(SPHelper.STRING_USER, filePath);//保存图片路径
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                    }
+
+                    String filePath = PhotoUtil.getRealPathFromURI(this.getContext(), data.getData());
+                    Glide.with(this).load(filePath).into(iv_appbar);
+                    SPHelper.with(this.getContext()).setString(SPHelper.STRING_USER, filePath);//保存图片路径
+                } else if (resultCode == RESULT_CANCELED) {
+                    ToastUtil.show(getContext(), getString(R.string.user_carema_cancel));
+                } else {
+                    ToastUtil.show(getContext(), getString(R.string.error_unknown));
                 }
                 break;
         }

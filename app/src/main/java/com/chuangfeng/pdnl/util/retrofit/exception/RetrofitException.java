@@ -1,6 +1,7 @@
-package com.chuangfeng.pdnl.util.retrofit;
+package com.chuangfeng.pdnl.util.retrofit.exception;
 
 /**
+ * 统一处理网络异常errorCode
  * Created by chuangfeng on 2017/4/6.
  */
 
@@ -31,7 +32,7 @@ public class RetrofitException extends RuntimeException {
                 msg = "服务器内部错误，请稍后再试！";
                 break;
             default:
-                msg = "未知错误";
+                msg = "未知错误！";
                 break;
         }
         return msg;

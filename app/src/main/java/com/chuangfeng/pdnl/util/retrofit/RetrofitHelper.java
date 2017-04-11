@@ -1,11 +1,19 @@
 package com.chuangfeng.pdnl.util.retrofit;
 
+import com.chuangfeng.pdnl.live.bean.LiveBaseBean;
+import com.chuangfeng.pdnl.util.retrofit.exception.RetrofitException;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by chuangfeng on 2017/4/6.
@@ -14,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitHelper {
 
     public static String BASE_EXPLORE_URL = "http://api.douban.com/v2/movie/";
-    public static String BASE_LIVE_URL = "http://api.douban.com/v2/movie/";
+    public static String BASE_LIVE_URL = "http://capi.douyucdn.cn";
     public static String BASE_USER_URL = "http://api.douban.com/v2/movie/";
 
     private static Retrofit retrofit = null;
@@ -26,7 +34,7 @@ public class RetrofitHelper {
                         .client(new OkHttpClient.Builder().connectTimeout(5, TimeUnit.SECONDS).build())
                         .baseUrl(BASE_EXPLORE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                         .build();
             }
         }
@@ -40,7 +48,7 @@ public class RetrofitHelper {
                         .client(new OkHttpClient.Builder().connectTimeout(5, TimeUnit.SECONDS).build())
                         .baseUrl(BASE_LIVE_URL)
                         .addConverterFactory(GsonConverterFactory.create())
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                         .build();
             }
         }
@@ -53,23 +61,22 @@ public class RetrofitHelper {
                         .client(new OkHttpClient.Builder().connectTimeout(5, TimeUnit.SECONDS).build())
                         .baseUrl(BASE_USER_URL)
                         .addConverterFactory(GsonConverterFactory.create())
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                         .build();
             }
         }
         return retrofit;
     }
 
-/*
-    public static <T> Observable.Transformer<BaseBean<T>, T> handleResult() {
 
-        return new Observable.Transformer<BaseBean<T>, T>() {//被观察者：BasrBean<T> --> T
+    public static <T> Observable.Transformer<LiveBaseBean<T>, T> handleLiveResult(){
+        return new Observable.Transformer<LiveBaseBean<T>, T>() {//被观察者：XXBasrBean<T> --> T
             @Override
-            public Observable<T> call(Observable<BaseBean<T>> baseBeanObservable) {//Step 1：获取Observable<BaseBean<T>>
-                return baseBeanObservable.flatMap(new Func1<BaseBean<T>, Observable<T>>() {//Step 2：把Observable<BaseBean<T>>转换为Observable<T>
+            public Observable<T> call(Observable<LiveBaseBean<T>> baseBeanObservable) {//Step 1：获取Observable<XXBaseBean<T>>
+                return baseBeanObservable.flatMap(new Func1<LiveBaseBean<T>, Observable<T>>() {//Step 2：把Observable<XXBaseBean<T>>转换为Observable<T>
                     @Override
-                    public Observable<T> call(final BaseBean<T> baseBean) {//Step 3:根据返回码决定是否发送事件
-                        if (baseBean.getCode() == 0){// 0：成功
+                    public Observable<T> call(final LiveBaseBean<T> baseBean) {//Step 3:根据返回码决定是否发送事件
+                        if (baseBean.getError() == 0){// 0：成功
                             return Observable.create(new Observable.OnSubscribe<T>() {
                                 @Override
                                 public void call(Subscriber<? super T> subscriber) {
@@ -81,8 +88,8 @@ public class RetrofitHelper {
                                     }
                                 }
                             });
-                        }else {
-                            return Observable.error(new RetrofitException(baseBean.getCode()));
+                        }else {//error:错误Exception
+                            return Observable.error(new RetrofitException(baseBean.getError()));
                         }
 
                     }
@@ -90,6 +97,6 @@ public class RetrofitHelper {
             }
         };
     }
-*/
+
 
 }
