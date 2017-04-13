@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.animation.BaseAnimation;
 
 /**
  * Created by chuangfeng on 2017/4/13.
+ * RecyclerView加载动画
  */
 
 public class CustionAnimation implements BaseAnimation{

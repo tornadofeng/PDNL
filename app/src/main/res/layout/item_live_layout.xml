@@ -16,7 +16,8 @@
         android:foreground="?selectableItemBackground"
         app:cardCornerRadius="@dimen/cardview_default_radius"
         app:cardElevation="@dimen/cardview_elevation"
-        app:cardPreventCornerOverlap="true">
+        app:cardPreventCornerOverlap="true"
+        android:id="@+id/live_cardview">
 
         <RelativeLayout
             android:layout_width="match_parent"
