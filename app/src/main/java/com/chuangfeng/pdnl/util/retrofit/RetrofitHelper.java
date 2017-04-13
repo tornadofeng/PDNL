@@ -54,9 +54,10 @@ public class RetrofitHelper {
         }
         return retrofit;
     }
+
     public static Retrofit getUserHelper() {
-        if (retrofit == null){
-            synchronized (RetrofitHelper.class){
+        if (retrofit == null) {
+            synchronized (RetrofitHelper.class) {
                 retrofit = new Retrofit.Builder()
                         .client(new OkHttpClient.Builder().connectTimeout(5, TimeUnit.SECONDS).build())
                         .baseUrl(BASE_USER_URL)
@@ -69,31 +70,34 @@ public class RetrofitHelper {
     }
 
 
-    public static <T> Observable.Transformer<LiveBaseBean<T>, T> handleLiveResult(){
+    public static <T> Observable.Transformer<LiveBaseBean<T>, T> handleLiveResult() {
         return new Observable.Transformer<LiveBaseBean<T>, T>() {//被观察者：XXBasrBean<T> --> T
             @Override
             public Observable<T> call(Observable<LiveBaseBean<T>> baseBeanObservable) {//Step 1：获取Observable<XXBaseBean<T>>
-                return baseBeanObservable.flatMap(new Func1<LiveBaseBean<T>, Observable<T>>() {//Step 2：把Observable<XXBaseBean<T>>转换为Observable<T>
-                    @Override
-                    public Observable<T> call(final LiveBaseBean<T> baseBean) {//Step 3:根据返回码决定是否发送事件
-                        if (baseBean.getError() == 0){// 0：成功
-                            return Observable.create(new Observable.OnSubscribe<T>() {
-                                @Override
-                                public void call(Subscriber<? super T> subscriber) {
-                                    try {
-                                        subscriber.onNext(baseBean.getData());//发送事件给Subscriber
-                                        subscriber.onCompleted();
-                                    }catch (Exception e){
-                                        subscriber.onError(e);
-                                    }
+                return baseBeanObservable
+                        .flatMap(new Func1<LiveBaseBean<T>, Observable<T>>() {//Step 2：把Observable<XXBaseBean<T>>转换为Observable<T>
+                            @Override
+                            public Observable<T> call(final LiveBaseBean<T> baseBean) {//Step 3:根据返回码决定是否发送事件
+                                if (baseBean.getError() == 0) {// 0：成功
+                                    return Observable.create(new Observable.OnSubscribe<T>() {
+                                        @Override
+                                        public void call(Subscriber<? super T> subscriber) {
+                                            try {
+                                                subscriber.onNext(baseBean.getData());//发送事件给Subscriber
+                                                subscriber.onCompleted();
+                                            } catch (Exception e) {
+                                                subscriber.onError(e);
+                                            }
+                                        }
+                                    });
+                                } else {//error:错误Exception
+                                    return Observable.error(new RetrofitException(baseBean.getError()));
                                 }
-                            });
-                        }else {//error:错误Exception
-                            return Observable.error(new RetrofitException(baseBean.getError()));
-                        }
 
-                    }
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                            }
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
             }
         };
     }

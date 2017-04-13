@@ -19,6 +19,7 @@ import com.chuangfeng.pdnl.live.bean.LiveRoomBean;
 import com.chuangfeng.pdnl.live.mvp.presenter.impl.LiveRoomListPresenterImpl;
 import com.chuangfeng.pdnl.live.mvp.view.ILiveRoomListFragment;
 import com.chuangfeng.pdnl.util.ToastUtil;
+import com.chuangfeng.pdnl.widget.animation.CustionAnimation;
 import com.chuangfeng.pdnl.widget.fragment.LazyFragment;
 
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListF
     public static LiveRoomListFragment newInstance() {
         return newInstance("");
     }
+
     public static LiveRoomListFragment newInstance(String cate_id) {
         LiveRoomListFragment fragment = new LiveRoomListFragment();
         Bundle args = new Bundle();
@@ -105,10 +107,12 @@ public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListF
     private void initRecyclerView() {
         adapter = new LiveRoomAdapter(roomBeanList);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
-        adapter.openLoadAnimation();
+        adapter.openLoadAnimation(new CustionAnimation());
+        adapter.isFirstOnly(true);
         adapter.openLoadMore(LiveAPI.LIMIT, true);//加载更多的触发条件
         adapter.setLoadingView(LayoutInflater.from(context).inflate(R.layout.layout_loading, (ViewGroup) recyclerView.getParent(), false));
         adapter.setOnLoadMoreListener(this);
+        adapter.setEmptyView(LayoutInflater.from(context).inflate(R.layout.layout_empty, (ViewGroup) recyclerView.getParent(), false));
         recyclerView.setAdapter(adapter);
 
     }
@@ -118,6 +122,11 @@ public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListF
         refreshLayout.setRefreshing(false);
         roomBeanList.addAll(offset, list);//在roomBeanList的尾部添加
         offset = roomBeanList.size();
+        if (list.size() < LiveAPI.LIMIT) {
+            adapter.notifyDataChangedAfterLoadMore(false);
+            adapter.addFooterView(LayoutInflater.from(context).inflate(R.layout.layout_footer, (ViewGroup) recyclerView.getParent(), false));
+            return;
+        }
         adapter.notifyDataChangedAfterLoadMore(true);
     }
 
@@ -131,6 +140,7 @@ public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListF
     public void onRefresh() {
         offset = 0;//重置偏移量
         roomBeanList.clear();//清空原数据
+        adapter.removeAllFooterView();
         refreshLayout.setRefreshing(true);
         if (TextUtils.isEmpty(cate_id)){//传入cate_id为空，请求全部直播
             presenter.getAllRoomList(offset, LiveAPI.LIMIT, LiveAPI.CLIENT_SYS);

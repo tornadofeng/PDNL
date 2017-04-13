@@ -93,7 +93,7 @@ public class LiveFragment extends LazyFragment implements ILiveFragment{
     private void initViewPager() {
         fragmentAdapter = new FragmentAdapter(this.getChildFragmentManager(), fragmentList);
         viewPager.setAdapter(fragmentAdapter);
-        viewPager.setOffscreenPageLimit(2);
+        viewPager.setOffscreenPageLimit(2);//预加载两个页面
     }
 
     private void initIndicator() {
@@ -108,6 +108,7 @@ public class LiveFragment extends LazyFragment implements ILiveFragment{
 
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
+                //设置导航栏标题
                 SimplePagerTitleView titleView = new SimplePagerTitleView(context);
                 titleView.setText(titleList.get(index));
                 titleView.setNormalColor(getResources().getColor(R.color.color_tab_normal_dark));
@@ -124,6 +125,7 @@ public class LiveFragment extends LazyFragment implements ILiveFragment{
 
             @Override
             public IPagerIndicator getIndicator(Context context) {
+                //设置导航栏线型指示器
                 LinePagerIndicator indicator = new LinePagerIndicator(context);
                 indicator.setMode(LinePagerIndicator.MODE_WRAP_CONTENT);
                 indicator.setLineHeight(UIUtil.dip2px(context, 2));
