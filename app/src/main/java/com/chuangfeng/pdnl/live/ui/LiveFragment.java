@@ -84,7 +84,7 @@ public class LiveFragment extends LazyFragment{
         titleList.add(getString(R.string.live_csgo));
         fragmentList.add(LiveListFragment.newInstance(getString(R.string.game_type_lol)));
         fragmentList.add(LiveListFragment.newInstance(getString(R.string.game_type_ow)));
-        fragmentList.add(LiveListFragment.newInstance(getString(R.string.game_type_dota2)));
+        fragmentList.add(LiveListFragment.newInstance( getString(R.string.game_type_dota2)));
         fragmentList.add(LiveListFragment.newInstance(getString(R.string.game_type_hs)));
         fragmentList.add(LiveListFragment.newInstance(getString(R.string.game_type_csgo)));
     }
