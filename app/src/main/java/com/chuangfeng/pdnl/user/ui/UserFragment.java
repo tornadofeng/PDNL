@@ -127,9 +127,9 @@ public class UserFragment extends LazyFragment {
                     Glide.with(this).load(filePath).into(iv_appbar);
                     SPHelper.with(this.getContext()).setString(SPHelper.STRING_USER, filePath);//保存图片路径
                 } else if (requestCode == RESULT_CANCELED) {
-                    ToastUtil.show(getContext(), getString(R.string.user_carema_cancel));
+                    ToastUtil.show(getString(R.string.user_carema_cancel));
                 } else {
-                    ToastUtil.show(getContext(), getString(R.string.error_unknown));
+                    ToastUtil.show(getString(R.string.error_unknown));
                 }
                 break;
             case REQUEST_GALLERY: // 相册获取
@@ -139,9 +139,9 @@ public class UserFragment extends LazyFragment {
                     Glide.with(this).load(filePath).into(iv_appbar);
                     SPHelper.with(this.getContext()).setString(SPHelper.STRING_USER, filePath);//保存图片路径
                 } else if (resultCode == RESULT_CANCELED) {
-                    ToastUtil.show(getContext(), getString(R.string.user_carema_cancel));
+                    ToastUtil.show(getString(R.string.user_carema_cancel));
                 } else {
-                    ToastUtil.show(getContext(), getString(R.string.error_unknown));
+                    ToastUtil.show(getString(R.string.error_unknown));
                 }
                 break;
         }

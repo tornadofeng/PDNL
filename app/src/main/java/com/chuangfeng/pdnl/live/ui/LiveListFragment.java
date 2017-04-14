@@ -1,23 +1,23 @@
 package com.chuangfeng.pdnl.live.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuangfeng.pdnl.R;
-import com.chuangfeng.pdnl.live.adapter.LiveRoomAdapter;
+import com.chuangfeng.pdnl.live.adapter.LiveListAdapter;
 import com.chuangfeng.pdnl.live.api.LiveAPI;
-import com.chuangfeng.pdnl.live.bean.LiveRoomBean;
-import com.chuangfeng.pdnl.live.mvp.presenter.impl.LiveRoomListPresenterImpl;
-import com.chuangfeng.pdnl.live.mvp.view.ILiveRoomListFragment;
+import com.chuangfeng.pdnl.live.bean.LiveListItemBean;
+import com.chuangfeng.pdnl.live.mvp.presenter.impl.LiveListPresenterImpl;
+import com.chuangfeng.pdnl.live.mvp.view.ILiveListFragment;
 import com.chuangfeng.pdnl.util.ToastUtil;
 import com.chuangfeng.pdnl.widget.animation.CustionAnimation;
 import com.chuangfeng.pdnl.widget.fragment.LazyFragment;
@@ -32,32 +32,32 @@ import butterknife.ButterKnife;
  * Created by chuangfeng on 2017/4/11.
  */
 
-public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListFragment,
+public class LiveListFragment extends LazyFragment implements ILiveListFragment,
         SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener{
 
-    private static final String CATE_ID = "cate_id";
-    private String cate_id;
+    private static final String GAME_TYPE = "game_type";
+    private String game_type;
     private int offset = 0;//用于记录分页偏移量
-    private List<LiveRoomBean> roomBeanList = new ArrayList<>();
+    private List<LiveListItemBean> roomBeanList = new ArrayList<>();
 
     private Context context;
-    private LiveRoomListPresenterImpl presenter;
+    private LiveListPresenterImpl presenter;
 
     @BindView(R.id.refreshlayout)
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
-    LiveRoomAdapter adapter;
+    LiveListAdapter adapter;
 
-    public static LiveRoomListFragment newInstance() {
+    public static LiveListFragment newInstance() {
         return newInstance("");
     }
 
-    public static LiveRoomListFragment newInstance(String cate_id) {
-        LiveRoomListFragment fragment = new LiveRoomListFragment();
+    public static LiveListFragment newInstance(String game_type) {
+        LiveListFragment fragment = new LiveListFragment();
         Bundle args = new Bundle();
-        args.putString(CATE_ID, cate_id);
+        args.putString(GAME_TYPE, game_type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,11 +67,11 @@ public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListF
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_live_roomlist, container, false);
+        View view = inflater.inflate(R.layout.fragment_live_list, container, false);
         ButterKnife.bind(this, view);
 
         context = view.getContext();
-        cate_id = getArguments().getString(CATE_ID);//得到传入的cate_id
+        game_type = getArguments().getString(GAME_TYPE);//得到传入的cate_id
 
         initMVP();
         initRefreshView();
@@ -87,16 +87,13 @@ public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListF
         if (savedInstanceState == null) {
             refreshLayout.setProgressViewOffset(false, 0, 30);// 这句话是为了，第一次进入页面初始化数据的时候显示加载进度条
             refreshLayout.setRefreshing(true);
-            if (TextUtils.isEmpty(cate_id)) {//传入cate_id为空，请求全部直播
-                presenter.getAllRoomList(offset, LiveAPI.LIMIT, LiveAPI.CLIENT_SYS);
-            } else {//不为空，根据cate_id分类请求直播数据
-                presenter.getColumnRoomList(cate_id, offset, LiveAPI.LIMIT, LiveAPI.CLIENT_SYS);
-            }
+            //根据game_type分类请求直播数据
+            presenter.getLiveList(offset, LiveAPI.LIMIT, game_type );
         }
     }
 
     private void initMVP() {
-        presenter = new LiveRoomListPresenterImpl(context, this);
+        presenter = new LiveListPresenterImpl(context, this);
     }
 
     private void initRefreshView() {
@@ -105,7 +102,7 @@ public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListF
     }
 
     private void initRecyclerView() {
-        adapter = new LiveRoomAdapter(roomBeanList);
+        adapter = new LiveListAdapter(roomBeanList);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         adapter.openLoadAnimation(new CustionAnimation());
         adapter.isFirstOnly(true);
@@ -117,6 +114,7 @@ public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListF
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int i) {
                 roomBeanList.get(i);
+                startActivity(new Intent(getActivity(), LivePlayActivity.class));
             }
         });
         recyclerView.setAdapter(adapter);
@@ -124,12 +122,12 @@ public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListF
     }
 
     @Override
-    public void updateRecyclerView(List<LiveRoomBean> list) {
+    public void updateRecyclerView(List<LiveListItemBean> list) {
         refreshLayout.setRefreshing(false);
         roomBeanList.addAll(offset, list);//在roomBeanList的尾部添加
         offset = roomBeanList.size();
-        if (list.size() < LiveAPI.LIMIT) {
-            adapter.notifyDataChangedAfterLoadMore(false);
+        if (list.size() < LiveAPI.LIMIT) {//分页数据size比每页数据的limit小，说明已全部加载数据
+            adapter.notifyDataChangedAfterLoadMore(false);//下一次不再加载更多，并显示FooterView
             adapter.addFooterView(LayoutInflater.from(context).inflate(R.layout.layout_footer, (ViewGroup) recyclerView.getParent(), false));
             return;
         }
@@ -139,7 +137,7 @@ public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListF
     @Override
     public void showError(String message) {
         refreshLayout.setRefreshing(false);
-        ToastUtil.show(context, message);
+        ToastUtil.show(message);
     }
 
     @Override
@@ -148,19 +146,13 @@ public class LiveRoomListFragment extends LazyFragment implements ILiveRoomListF
         roomBeanList.clear();//清空原数据
         adapter.removeAllFooterView();
         refreshLayout.setRefreshing(true);
-        if (TextUtils.isEmpty(cate_id)){//传入cate_id为空，请求全部直播
-            presenter.getAllRoomList(offset, LiveAPI.LIMIT, LiveAPI.CLIENT_SYS);
-        }else {//不为空，根据cate_id分类请求直播数据
-            presenter.getColumnRoomList(cate_id, offset, LiveAPI.LIMIT, LiveAPI.CLIENT_SYS);
-        }
+        //根据game_type分类请求直播数据
+        presenter.getLiveList(offset, LiveAPI.LIMIT, game_type );
     }
 
     @Override
     public void onLoadMoreRequested() {
-        if (TextUtils.isEmpty(cate_id)){//传入cate_id为空，请求全部直播
-            presenter.getAllRoomList(offset, LiveAPI.LIMIT, LiveAPI.CLIENT_SYS);
-        }else {//不为空，根据cate_id分类请求直播数据
-            presenter.getColumnRoomList(cate_id, offset, LiveAPI.LIMIT, LiveAPI.CLIENT_SYS);
-        }
+        //根据game_type分类请求直播数据
+        presenter.getLiveList(offset, LiveAPI.LIMIT, game_type );
     }
 }
