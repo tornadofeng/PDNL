@@ -3,7 +3,7 @@ package com.chuangfeng.pdnl.live.mvp.presenter.impl;
 import android.content.Context;
 
 import com.chuangfeng.pdnl.live.api.LiveAPI;
-import com.chuangfeng.pdnl.live.bean.LiveListItemBean;
+import com.chuangfeng.pdnl.live.mvp.model.bean.LiveListItemBean;
 import com.chuangfeng.pdnl.live.mvp.presenter.ILiveListPresenter;
 import com.chuangfeng.pdnl.live.mvp.view.ILiveListFragment;
 import com.chuangfeng.pdnl.util.retrofit.HttpSubscriber;

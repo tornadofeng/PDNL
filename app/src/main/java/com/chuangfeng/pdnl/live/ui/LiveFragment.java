@@ -92,7 +92,7 @@ public class LiveFragment extends LazyFragment{
     private void initViewPager() {
         fragmentAdapter = new FragmentAdapter(this.getChildFragmentManager(), fragmentList);
         viewPager.setAdapter(fragmentAdapter);
-        viewPager.setOffscreenPageLimit(2);//预加载两个页面
+        viewPager.setOffscreenPageLimit(4);//预加载4个页面
     }
 
     private void initIndicator() {

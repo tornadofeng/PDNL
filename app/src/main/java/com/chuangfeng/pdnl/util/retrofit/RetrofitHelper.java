@@ -1,6 +1,6 @@
 package com.chuangfeng.pdnl.util.retrofit;
 
-import com.chuangfeng.pdnl.live.bean.LiveBaseBean;
+import com.chuangfeng.pdnl.live.mvp.model.bean.LiveBaseBean;
 import com.chuangfeng.pdnl.util.retrofit.exception.RetrofitException;
 
 import java.util.concurrent.TimeUnit;

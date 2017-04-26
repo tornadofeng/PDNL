@@ -1,31 +1,35 @@
-package com.chuangfeng.pdnl.live.bean;
+package com.chuangfeng.pdnl.live.mvp.model.bean;
+
+import java.util.List;
 
 /**
- * Created by chuangfeng on 2017/4/14.
+ * Created by chuangfeng on 2017/4/26.
+ * 直播详情
  */
 
-public class LiveListItemBean {
+public class LiveDetailBean {
     /**
      * enable : 1
-     * game_type : dota2
-     * live_id : 246195
-     * live_img : https://rpic.douyucdn.cn/z1609/19/15/246195_160919152708.jpg
+     * game_type : lol
+     * is_followed : 0
+     * live_id : 453751
+     * live_img : https://rpic.douyucdn.cn/z1609/20/09/453751_160920093735.jpg
      * live_name : douyu
-     * live_nickname : 叶子长青K
-     * live_online : 41
-     * live_title : 叶中天 品火猫 感冒我需要打稳重点
+     * live_nickname : 我叫撸管飞
+     * live_online : 88739
+     * live_title : 国服第一风暴诺手！五天大师！
      * live_type : douyu
-     * live_userimg : http://uc.douyutv.com/avatar.php?uid=2350097&size=small
-     * offline_time : 1474226479.5676
-     * online_time : 1474207228.6536
-     * push_time : 1474129572.6225
-     * show_type : native
-     * sort_num : 41
-     * url_info : {"Referer":"http://api.douyutv.com/","User_Agent":"Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.54","url":"http://capi.douyucdn.cn/api/v1/room/246195?aid=dotamax&time=1474270860&auth=d5cf3a2479f1b17fd7631adddf41cde7"}
+     * live_userimg :
+     * offline_time : 1473748293.7780
+     * online_time : 1473735863.0744
+     * push_time : 1473730708.5845
+     * sort_num : 88739
+     * stream_list : [{"type":"超清","url":"http://hdl3.douyutv.com/live/453751rmOQP0R7yZ.flv?wsSecret=2eeda296e6253d3d3e27632c44d9fbf8&wsTime=1454410265"},{"type":"普清","url":"http://hdl3.douyutv.com/live/453751rmOQP0R7yZ_550.flv?wsSecret=7341e36a7b32c22e6bc45135d1905867&wsTime=1454410265"}]
      */
 
     private int enable;
     private String game_type;
+    private int is_followed;
     private String live_id;
     private String live_img;
     private String live_name;
@@ -37,15 +41,13 @@ public class LiveListItemBean {
     private String offline_time;
     private String online_time;
     private String push_time;
-    private String show_type;
     private int sort_num;
-    /**
-     * Referer : http://api.douyutv.com/
-     * User_Agent : Mozilla/5.0 (iPhone; CPU iPhone OS 7_0 like Mac OS X; en-us) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.54
-     * url : http://capi.douyucdn.cn/api/v1/room/246195?aid=dotamax&time=1474270860&auth=d5cf3a2479f1b17fd7631adddf41cde7
-     */
 
-    private UrlInfoBean url_info;
+    /**
+     * type : 超清
+     * url : http://hdl3.douyutv.com/live/453751rmOQP0R7yZ.flv?wsSecret=2eeda296e6253d3d3e27632c44d9fbf8&wsTime=1454410265
+     */
+    private List<StreamListBean> stream_list;
 
     public int getEnable() {
         return enable;
@@ -61,6 +63,14 @@ public class LiveListItemBean {
 
     public void setGame_type(String game_type) {
         this.game_type = game_type;
+    }
+
+    public int getIs_followed() {
+        return is_followed;
+    }
+
+    public void setIs_followed(int is_followed) {
+        this.is_followed = is_followed;
     }
 
     public String getLive_id() {
@@ -151,14 +161,6 @@ public class LiveListItemBean {
         this.push_time = push_time;
     }
 
-    public String getShow_type() {
-        return show_type;
-    }
-
-    public void setShow_type(String show_type) {
-        this.show_type = show_type;
-    }
-
     public int getSort_num() {
         return sort_num;
     }
@@ -167,33 +169,24 @@ public class LiveListItemBean {
         this.sort_num = sort_num;
     }
 
-    public UrlInfoBean getUrl_info() {
-        return url_info;
+    public List<StreamListBean> getStream_list() {
+        return stream_list;
     }
 
-    public void setUrl_info(UrlInfoBean url_info) {
-        this.url_info = url_info;
+    public void setStream_list(List<StreamListBean> stream_list) {
+        this.stream_list = stream_list;
     }
 
-    public static class UrlInfoBean {
-        private String Referer;
-        private String User_Agent;
+    public static class StreamListBean {
+        private String type;
         private String url;
 
-        public String getReferer() {
-            return Referer;
+        public String getType() {
+            return type;
         }
 
-        public void setReferer(String Referer) {
-            this.Referer = Referer;
-        }
-
-        public String getUser_Agent() {
-            return User_Agent;
-        }
-
-        public void setUser_Agent(String User_Agent) {
-            this.User_Agent = User_Agent;
+        public void setType(String type) {
+            this.type = type;
         }
 
         public String getUrl() {

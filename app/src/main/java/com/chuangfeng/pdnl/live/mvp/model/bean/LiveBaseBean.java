@@ -1,7 +1,8 @@
-package com.chuangfeng.pdnl.live.bean;
+package com.chuangfeng.pdnl.live.mvp.model.bean;
 
 /**
  * Created by chuangfeng on 2017/4/10.
+ * 网络请求实体基类
  */
 
 public class LiveBaseBean<T> {

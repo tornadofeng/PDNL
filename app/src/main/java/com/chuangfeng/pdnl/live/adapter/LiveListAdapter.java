@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chuangfeng.pdnl.R;
-import com.chuangfeng.pdnl.live.bean.LiveListItemBean;
+import com.chuangfeng.pdnl.live.mvp.model.bean.LiveListItemBean;
 
 import java.util.List;
 

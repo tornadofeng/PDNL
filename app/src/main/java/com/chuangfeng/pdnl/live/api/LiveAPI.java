@@ -1,7 +1,8 @@
 package com.chuangfeng.pdnl.live.api;
 
-import com.chuangfeng.pdnl.live.bean.LiveBaseBean;
-import com.chuangfeng.pdnl.live.bean.LiveListItemBean;
+import com.chuangfeng.pdnl.live.mvp.model.bean.LiveBaseBean;
+import com.chuangfeng.pdnl.live.mvp.model.bean.LiveListItemBean;
+import com.chuangfeng.pdnl.live.mvp.model.bean.LiveDetailBean;
 
 import java.util.List;
 
@@ -28,6 +29,14 @@ public interface LiveAPI {
     Observable<LiveBaseBean<List<LiveListItemBean>>> getLiveList(
             @Query("offset") int offset,
             @Query("limit") int limit,
+            @Query("game_type") String game_type
+    );
+
+    //请求获取直播详情
+    @GET("/api/live/detail/")
+    Observable<LiveBaseBean<LiveDetailBean>> getLiveDetail(
+            @Query("live_type") String live_type,
+            @Query("live_id") String live_id,
             @Query("game_type") String game_type
     );
 }

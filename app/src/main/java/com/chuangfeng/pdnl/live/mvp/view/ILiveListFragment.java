@@ -1,6 +1,6 @@
 package com.chuangfeng.pdnl.live.mvp.view;
 
-import com.chuangfeng.pdnl.live.bean.LiveListItemBean;
+import com.chuangfeng.pdnl.live.mvp.model.bean.LiveListItemBean;
 
 import java.util.List;
 

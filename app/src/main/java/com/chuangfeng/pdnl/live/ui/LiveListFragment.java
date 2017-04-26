@@ -15,7 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chuangfeng.pdnl.R;
 import com.chuangfeng.pdnl.live.adapter.LiveListAdapter;
 import com.chuangfeng.pdnl.live.api.LiveAPI;
-import com.chuangfeng.pdnl.live.bean.LiveListItemBean;
+import com.chuangfeng.pdnl.live.mvp.model.bean.LiveListItemBean;
 import com.chuangfeng.pdnl.live.mvp.presenter.impl.LiveListPresenterImpl;
 import com.chuangfeng.pdnl.live.mvp.view.ILiveListFragment;
 import com.chuangfeng.pdnl.util.ToastUtil;
@@ -38,7 +38,7 @@ public class LiveListFragment extends LazyFragment implements ILiveListFragment,
     private static final String GAME_TYPE = "game_type";
     private String game_type;
     private int offset = 0;//用于记录分页偏移量
-    private List<LiveListItemBean> roomBeanList = new ArrayList<>();
+    private List<LiveListItemBean> liveList = new ArrayList<>();
 
     private Context context;
     private LiveListPresenterImpl presenter;
@@ -102,7 +102,7 @@ public class LiveListFragment extends LazyFragment implements ILiveListFragment,
     }
 
     private void initRecyclerView() {
-        adapter = new LiveListAdapter(roomBeanList);
+        adapter = new LiveListAdapter(liveList);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         adapter.openLoadAnimation(new CustionAnimation());
         adapter.isFirstOnly(true);
@@ -113,8 +113,13 @@ public class LiveListFragment extends LazyFragment implements ILiveListFragment,
         adapter.setOnRecyclerViewItemChildClickListener(new BaseQuickAdapter.OnRecyclerViewItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int i) {
-                roomBeanList.get(i);
-                startActivity(new Intent(getActivity(), LivePlayActivity.class));
+                LiveListItemBean liveItemBean = liveList.get(i);
+                Intent intent = new Intent(getActivity(), LivePlayActivity.class);
+                intent.putExtra(LivePlayActivity.LIVE_TYPE, liveItemBean.getLive_type());
+                intent.putExtra(LivePlayActivity.LIVE_ID, liveItemBean.getLive_id());
+                intent.putExtra(LivePlayActivity.GAME_TYPE, liveItemBean.getGame_type());
+                intent.putExtra(LivePlayActivity.DOUYU_URL, liveItemBean.getUrl_info().getUrl());
+                startActivity(intent);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -124,8 +129,8 @@ public class LiveListFragment extends LazyFragment implements ILiveListFragment,
     @Override
     public void updateRecyclerView(List<LiveListItemBean> list) {
         refreshLayout.setRefreshing(false);
-        roomBeanList.addAll(offset, list);//在roomBeanList的尾部添加
-        offset = roomBeanList.size();
+        liveList.addAll(offset, list);//在roomBeanList的尾部添加
+        offset = liveList.size();
         if (list.size() < LiveAPI.LIMIT) {//分页数据size比每页数据的limit小，说明已全部加载数据
             adapter.notifyDataChangedAfterLoadMore(false);//下一次不再加载更多，并显示FooterView
             adapter.addFooterView(LayoutInflater.from(context).inflate(R.layout.layout_footer, (ViewGroup) recyclerView.getParent(), false));
@@ -143,7 +148,7 @@ public class LiveListFragment extends LazyFragment implements ILiveListFragment,
     @Override
     public void onRefresh() {
         offset = 0;//重置偏移量
-        roomBeanList.clear();//清空原数据
+        liveList.clear();//清空原数据
         adapter.removeAllFooterView();
         refreshLayout.setRefreshing(true);
         //根据game_type分类请求直播数据
