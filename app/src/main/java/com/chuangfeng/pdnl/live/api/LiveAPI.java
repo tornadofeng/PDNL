@@ -1,6 +1,7 @@
 package com.chuangfeng.pdnl.live.api;
 
 import com.chuangfeng.pdnl.live.mvp.model.bean.LiveBaseBean;
+import com.chuangfeng.pdnl.live.mvp.model.bean.LiveDetailDouyuBean;
 import com.chuangfeng.pdnl.live.mvp.model.bean.LiveListItemBean;
 import com.chuangfeng.pdnl.live.mvp.model.bean.LiveDetailBean;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -38,5 +40,11 @@ public interface LiveAPI {
             @Query("live_type") String live_type,
             @Query("live_id") String live_id,
             @Query("game_type") String game_type
+    );
+
+    //请求获取弹幕聊天室详情
+    @GET
+    Observable<LiveDetailDouyuBean> getDouyuDetail(
+            @Url String url
     );
 }
