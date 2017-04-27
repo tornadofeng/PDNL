@@ -1,6 +1,7 @@
 package com.chuangfeng.pdnl.live.mvp.view;
 
 import com.chuangfeng.pdnl.live.mvp.model.bean.LiveListItemBean;
+import com.chuangfeng.pdnl.util.retrofit.exception.IErrorView;
 
 import java.util.List;
 

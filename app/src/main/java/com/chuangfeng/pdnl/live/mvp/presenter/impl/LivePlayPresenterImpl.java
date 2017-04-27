@@ -7,7 +7,7 @@ import com.chuangfeng.pdnl.live.api.LiveAPI;
 import com.chuangfeng.pdnl.live.mvp.model.bean.LiveDetailBean;
 import com.chuangfeng.pdnl.live.mvp.model.bean.LiveDetailDouyuBean;
 import com.chuangfeng.pdnl.live.mvp.presenter.ILivePlayPresenter;
-import com.chuangfeng.pdnl.live.mvp.view.ILivePlayActivity;
+import com.chuangfeng.pdnl.live.mvp.view.ILivePlayChatFragment;
 import com.chuangfeng.pdnl.util.retrofit.HttpSubscriber;
 import com.chuangfeng.pdnl.util.retrofit.RetrofitHelper;
 
@@ -22,9 +22,9 @@ import rx.schedulers.Schedulers;
 public class LivePlayPresenterImpl implements ILivePlayPresenter {
 
     private Context context;
-    private ILivePlayActivity view;
+    private ILivePlayChatFragment view;
 
-    public LivePlayPresenterImpl(Context context, ILivePlayActivity view) {
+    public LivePlayPresenterImpl(Context context, ILivePlayChatFragment view) {
         this.context = context;
         this.view = view;
     }
@@ -74,6 +74,8 @@ public class LivePlayPresenterImpl implements ILivePlayPresenter {
                             }
                         }
                     });
+        } else {
+            view.showError("弹幕服务器接口链接无效！");
         }
     }
 }
