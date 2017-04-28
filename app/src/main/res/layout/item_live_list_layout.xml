@@ -29,7 +29,7 @@
                 android:layout_height="97dp"
                 android:id="@+id/live_iv_roomsrc_background"
                 android:background="@color/divider"
-                android:src="@drawable/ic_live_placeholder_40dp"
+                android:src="@drawable/ic_live_placeholder"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:padding="25dp"/>
@@ -91,16 +91,16 @@
                 android:gravity="center_vertical"
                 android:textSize="@dimen/textsize_secondary"
                 android:textColor="@color/color_primary_text"
-                android:layout_toLeftOf="@+id/imageView9"
+                android:layout_toLeftOf="@+id/controller_landscape_iv_refresh"
                 android:scrollIndicators="end"
                 android:singleLine="true" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:id="@+id/imageView9"
+                android:id="@+id/controller_landscape_iv_refresh"
                 android:layout_toStartOf="@+id/live_tv_online"
-                android:src="@drawable/ic_visitor_40dp"
+                android:src="@drawable/ic_visitor"
                 android:layout_centerVertical="true" />
 
             <TextView
