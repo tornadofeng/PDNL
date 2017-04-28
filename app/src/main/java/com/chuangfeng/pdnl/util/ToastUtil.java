@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 /**
- * 用于维护唯一Toastd工具类
+ * 用于维护唯一Toast的工具类
  * Created by chuangfeng on 2017/4/10.
  */
 
